@@ -1,0 +1,17 @@
+# Build stage
+FROM golang:alpine as builder
+
+WORKDIR /src
+COPY go.mod go.sum ./
+
+RUN go mod download
+
+COPY ./app/api/account ./app/api/account
+COPY ./pkg ./pkg
+
+RUN CGO_ENABLED=0 go build -o /tmp/user-api ./app/api/user/main.go
+
+FROM scratch
+WORKDIR /build
+COPY --from=builder /tmp/user-api /tmp/user-api
+ENTRYPOINT ["/tmp/user-api"]
