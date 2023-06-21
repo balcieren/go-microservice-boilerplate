@@ -6,3 +6,5 @@ build:
 	docker compose -f "docker-compose.yaml" build
 proto:
 	protoc --go_out=. --go-grpc_out=.  ./pkg/proto/*.proto
+swagger:
+	swag init -g /app/proxy/main.go --parseDependency true --parseInternal true

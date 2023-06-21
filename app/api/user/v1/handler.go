@@ -4,6 +4,7 @@ import (
 	"context"
 
 	"github.com/balcieren/go-microservice/pkg/config"
+	_ "github.com/balcieren/go-microservice/pkg/helper"
 	"github.com/balcieren/go-microservice/pkg/log"
 	"github.com/balcieren/go-microservice/pkg/proto"
 	"github.com/balcieren/go-microservice/pkg/utils"
@@ -24,6 +25,18 @@ func NewHandler(s *Service, c *config.Config, l *log.Logger) *Handler {
 	}
 }
 
+// @Summary List Users
+// @Description List Users
+// @Tags User
+// @Accept  json
+// @Produce  json
+// @Param page query int false "Page"
+// @Param per_page query int false "Per Page"
+// @Success 200 {object} proto.ListUsersResponse
+// @Failure 400 {object} helper.ErrorResponse
+// @Failure 500 {object} helper.ErrorResponse
+// @Security BearerAuth
+// @Router /v1/users [get]
 func (h *Handler) ListUsers(c *fiber.Ctx) error {
 	resp, err := h.service.user.ListUsers(context.Background(), &proto.ListUsersRequest{
 		Page:    int32(c.QueryInt("page", 1)),
@@ -37,6 +50,17 @@ func (h *Handler) ListUsers(c *fiber.Ctx) error {
 	return c.JSON(resp)
 }
 
+// @Summary Get User
+// @Description Get User
+// @Tags User
+// @Accept  json
+// @Produce  json
+// @Param id path string true "Id"
+// @Success 200 {object} proto.GetUserResponse
+// @Failure 400 {object} helper.ErrorResponse
+// @Failure 500 {object} helper.ErrorResponse
+// @Security BearerAuth
+// @Router /v1/users/{id} [get]
 func (h *Handler) GetUser(c *fiber.Ctx) error {
 	id := c.Params("id")
 	resp, err := h.service.user.GetUser(context.Background(), &proto.GetUserRequest{
@@ -50,6 +74,17 @@ func (h *Handler) GetUser(c *fiber.Ctx) error {
 	return c.JSON(resp)
 }
 
+// @Summary Create User
+// @Description Create User
+// @Tags User
+// @Accept  json
+// @Produce  json
+// @Param payload body CreateUserInput true "Create User Body"
+// @Success 201 {string} string "user has created successfully"
+// @Failure 400 {object} helper.ErrorResponse
+// @Failure 500 {object} helper.ErrorResponse
+// @Security BearerAuth
+// @Router /v1/users [post]
 func (h *Handler) CreateUser(c *fiber.Ctx) error {
 	var payload CreateUserInput
 	if err := c.BodyParser(&payload); err != nil {
@@ -69,6 +104,18 @@ func (h *Handler) CreateUser(c *fiber.Ctx) error {
 	return c.Status(fiber.StatusCreated).JSON("user has created successfully")
 }
 
+// @Summary Update User
+// @Description Update User
+// @Tags User
+// @Accept  json
+// @Produce  json
+// @Param id path string true "Id"
+// @Param payload body UpdateUserInput true "Update User Body"
+// @Success 202 {string} string "user has updated successfully"
+// @Failure 400 {object} helper.ErrorResponse
+// @Failure 500 {object} helper.ErrorResponse
+// @Security BearerAuth
+// @Router /v1/users/{id} [patch]
 func (h *Handler) UpdateUser(c *fiber.Ctx) error {
 	var payload UpdateUserInput
 	if err := c.BodyParser(&payload); err != nil {
@@ -89,6 +136,17 @@ func (h *Handler) UpdateUser(c *fiber.Ctx) error {
 	return c.Status(fiber.StatusAccepted).JSON("user has updated successfully")
 }
 
+// @Summary Delete User
+// @Description Delete User
+// @Tags User
+// @Accept  json
+// @Produce  json
+// @Param id path string true "Id"
+// @Success 204 {string} string "user has deleted successfully"
+// @Failure 400 {object} helper.ErrorResponse
+// @Failure 500 {object} helper.ErrorResponse
+// @Security BearerAuth
+// @Router /v1/users/{id} [delete]
 func (h *Handler) DeleteUser(c *fiber.Ctx) error {
 	_, err := h.service.user.DeleteUser(context.Background(), &proto.DeleteUserRequest{
 		Id: c.Params("id"),

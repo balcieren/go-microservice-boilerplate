@@ -6,6 +6,7 @@ COPY go.mod go.sum ./
 RUN go mod download
 
 COPY ./app/proxy ./app/proxy
+COPY ./docs ./docs 
 COPY ./pkg ./pkg
 
 RUN go install github.com/cosmtrek/air@latest

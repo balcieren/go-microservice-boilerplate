@@ -17,6 +17,7 @@ services:
             - user-api
         volumes:
             - ./app/proxy/:/src/app/proxy
+            - ./docs/:/src/docs
             - ./pkg/:/src/pkg
 
     user-grpc:

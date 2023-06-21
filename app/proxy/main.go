@@ -6,14 +6,24 @@ import (
 	"net"
 	"strings"
 
+	_ "github.com/balcieren/go-microservice/docs"
 	"github.com/balcieren/go-microservice/pkg/config"
 	"github.com/balcieren/go-microservice/pkg/helper"
 	"github.com/balcieren/go-microservice/pkg/log"
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/logger"
 	"github.com/gofiber/fiber/v2/middleware/proxy"
+	"github.com/gofiber/swagger"
 	"go.uber.org/fx"
 )
+
+// @title  Go-Microservice API Documentation
+// @version 1.0
+// @description This is a sample server for Go-Microservice API Documentation.
+
+// @host      localhost:8000
+// @BasePath  /api
+// @schemes http
 
 func main() {
 	fx.New(
@@ -27,6 +37,8 @@ func main() {
 		}),
 		fx.Invoke(func(lc fx.Lifecycle, app *fiber.App, cfg *config.Config, l *log.Logger) {
 			app.Use(logger.New())
+
+			app.Get("/api/swagger/*", swagger.HandlerDefault)
 
 			app.All("/api/v1*", func(c *fiber.Ctx) error {
 				var fullPath, parentPath string = "", ""
