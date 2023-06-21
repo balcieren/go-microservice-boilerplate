@@ -3,7 +3,7 @@ services:
         container_name: proxy
         build:
             context: ./
-            dockerfile: Dockerfile.proxy.dev
+            dockerfile: Dockerfile.proxy
         environment:
             - PROXY_PORT=8000
             - API_PORT=8081
@@ -20,7 +20,7 @@ services:
         container_name: user-grpc
         build:
             context: ./
-            dockerfile: Dockerfile.user.grpc.dev
+            dockerfile: Dockerfile.user.grpc
         networks:
             - go-microservice
         restart: always
@@ -32,7 +32,7 @@ services:
         container_name: user-api
         build:
             context: ./
-            dockerfile: Dockerfile.user.api.dev
+            dockerfile: Dockerfile.user.api
         environment:
             - API_PORT=8081
             - USER_GRPC_HOST_NAME=user-grpc
