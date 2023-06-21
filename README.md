@@ -26,11 +26,26 @@ make dev
 ```bash
 make build
 ```    
+## Additional Makefile Commands
+
+Generate all proto files
+
+```bash
+   make proto
+```
+
+Genere swagger
+
+```bash
+   make swagger
+```
+
 ## Swagger Path
 
-- localhost:8000/api/swagger
+localhost:8000/api/swagger
 
 
 ## Missing Features
 
 - Load balancer in proxy
+
