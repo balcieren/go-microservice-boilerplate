@@ -7,6 +7,7 @@ services:
         environment:
             - PROXY_PORT=8000
             - API_PORT=8081
+            - USER_API_HOST_NAME=user-api
         ports:
             - '8000:8000'
         networks:
@@ -19,24 +20,22 @@ services:
         container_name: user-grpc
         build:
             context: ./
-            dockerfile: Dockerfile.grpc.dev
-        ports:
-            - '50051:50051'
+            dockerfile: Dockerfile.user.grpc.dev
         networks:
             - go-microservice
         restart: always
         environment:
-            - GRPC_HOST_NAME=user-grpc
             - GRPC_PORT=50051
+            - USER_POSTGRESQL_URI=postgresql://postgres:postgres@postgresql-database/go-microservice?sslmode=disable
 
     user-api:
         container_name: user-api
         build:
             context: ./
-            dockerfile: Dockerfile.auth-api.dev
+            dockerfile: Dockerfile.user.api.dev
         environment:
             - API_PORT=8081
-            - GRPC_HOST_NAME=user-grpc
+            - USER_GRPC_HOST_NAME=user-grpc
             - GRPC_PORT=50051
         networks:
             - go-microservice
