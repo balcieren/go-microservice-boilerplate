@@ -10,14 +10,14 @@ type Router struct {
 func NewRouter(app *fiber.App, h *Handler) *Router {
 	return &Router{
 		handler: h,
-		root:    app.Group("/api/v1"),
+		root:    app.Group("/v1"),
 	}
 }
 
 func (r *Router) Setup() {
-	// r.root.Get("/users", r.handler.ListUsers)
-	// r.root.Get("/users/:id", r.handler.GetUser)
-	// r.root.Post("/users", r.handler.CreateUser)
-	// r.root.Put("/users/:id", r.handler.UpdateUser)
-	// r.root.Delete("/users/:id", r.handler.DeleteUser)
+	r.root.Get("/users", r.handler.ListUsers)
+	r.root.Get("/users/:id", r.handler.GetUser)
+	r.root.Post("/users", r.handler.CreateUser)
+	r.root.Patch("/users/:id", r.handler.UpdateUser)
+	r.root.Delete("/users/:id", r.handler.DeleteUser)
 }

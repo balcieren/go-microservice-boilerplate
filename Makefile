@@ -3,6 +3,6 @@ dev:
 dev-down:
 	docker compose -f "docker-compose.dev.yaml" down
 build:
-	docker compose -f "docker-compose.dev.yaml" build
+	docker compose -f "docker-compose.yaml" build
 proto:
 	protoc --go_out=. --go-grpc_out=.  ./pkg/proto/*.proto

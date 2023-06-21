@@ -1,0 +1,68 @@
+services:
+    proxy:
+        container_name: proxy
+        build:
+            context: ./
+            dockerfile: Dockerfile.proxy.dev
+        environment:
+            - PROXY_PORT=8000
+            - API_PORT=8081
+        ports:
+            - '8000:8000'
+        networks:
+            - go-microservice
+        restart: always
+        depends_on:
+            - user-api
+
+    user-grpc:
+        container_name: user-grpc
+        build:
+            context: ./
+            dockerfile: Dockerfile.grpc.dev
+        ports:
+            - '50051:50051'
+        networks:
+            - go-microservice
+        restart: always
+        environment:
+            - GRPC_HOST_NAME=user-grpc
+            - GRPC_PORT=50051
+
+    user-api:
+        container_name: user-api
+        build:
+            context: ./
+            dockerfile: Dockerfile.auth-api.dev
+        environment:
+            - API_PORT=8081
+            - GRPC_HOST_NAME=user-grpc
+            - GRPC_PORT=50051
+        networks:
+            - go-microservice
+        restart: always
+        depends_on:
+            - user-grpc
+
+    postgresql-database:
+        container_name: postgresql-database
+        image: postgres:14.6
+        environment:
+            - POSTGRES_USER=postgres
+            - POSTGRES_PASSWORD=postgres
+            - POSTGRES_DB=go-microservice
+        restart: always
+        ports:
+            - '5432:5432'
+        networks:
+            - go-microservice
+        volumes:
+            - postgresql-data:/var/lib/postgresql/data/
+
+volumes:
+    postgresql-data:
+        driver: local
+        external: false
+networks:
+    go-microservice:
+        driver: bridge

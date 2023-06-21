@@ -5,11 +5,12 @@ import (
 	"fmt"
 
 	"github.com/balcieren/go-microservice/app/grpc/user/ent"
+	"github.com/balcieren/go-microservice/pkg/config"
 	_ "github.com/lib/pq"
 )
 
-func NewPostgreSQL(uri string) (*ent.Client, error) {
-	client, err := ent.Open("postgres", uri)
+func NewPostgreSQL(c *config.Config) (*ent.Client, error) {
+	client, err := ent.Open("postgres", c.USER_POSTGRESQL_URI)
 	if err != nil {
 		return nil, fmt.Errorf("failed opening connection to postgres: %v", err.Error())
 	}

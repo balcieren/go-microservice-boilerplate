@@ -2,7 +2,6 @@ package service
 
 import (
 	"context"
-	"log"
 	"math"
 
 	"entgo.io/ent/dialect/sql"
@@ -10,6 +9,7 @@ import (
 	"github.com/balcieren/go-microservice/app/grpc/user/ent/predicate"
 	"github.com/balcieren/go-microservice/app/grpc/user/ent/user"
 	"github.com/balcieren/go-microservice/pkg/config"
+	"github.com/balcieren/go-microservice/pkg/log"
 	"github.com/balcieren/go-microservice/pkg/proto"
 	"github.com/google/uuid"
 	"google.golang.org/grpc/codes"
@@ -19,16 +19,16 @@ import (
 
 type Service struct {
 	proto.UnimplementedUserServiceServer
-	db  *ent.Client
-	log *log.Logger
-	cfg *config.Config
+	db     *ent.Client
+	log    *log.Logger
+	config *config.Config
 }
 
 func New(db *ent.Client, l *log.Logger, c *config.Config) *Service {
 	return &Service{
-		db:  db,
-		log: l,
-		cfg: c,
+		db:     db,
+		log:    l,
+		config: c,
 	}
 }
 
@@ -86,6 +86,7 @@ func (s *Service) GetUser(ctx context.Context, in *proto.GetUserRequest) (*proto
 	return &proto.GetUserResponse{
 		Id:        u.ID.String(),
 		UserName:  u.UserName,
+		Email:     u.Email,
 		Age:       u.Age,
 		CreatedAt: timestamppb.New(u.CreatedAt),
 		UpdatedAt: timestamppb.New(u.UpdatedAt),
@@ -116,10 +117,25 @@ func (s *Service) UpdateUser(ctx context.Context, in *proto.UpdateUserRequest) (
 		return nil, status.Error(codes.InvalidArgument, err.Error())
 	}
 
+	var username *string = nil
+	if in.GetUserName() != "" {
+		username = &in.UserName
+	}
+
+	var email *string = nil
+	if in.GetEmail() != "" {
+		email = &in.Email
+	}
+
+	var age *uint64 = nil
+	if in.GetAge() != 0 {
+		age = &in.Age
+	}
+
 	_, err = s.db.User.UpdateOneID(id).
-		SetNillableUserName(&in.Email).
-		SetNillableEmail(&in.Email).
-		SetNillableAge(&in.Age).
+		SetNillableUserName(username).
+		SetNillableEmail(email).
+		SetNillableAge(age).
 		Save(ctx)
 	if err != nil {
 		return nil, status.Error(codes.Internal, err.Error())

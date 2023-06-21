@@ -14,10 +14,7 @@ type Config struct {
 }
 
 func New() (*Config, error) {
-	err := godotenv.Load("../../.env")
-	if err != nil {
-		return nil, err
-	}
+	godotenv.Load("../../.env")
 
 	return &Config{
 		API_PORT:            os.Getenv("API_PORT"),

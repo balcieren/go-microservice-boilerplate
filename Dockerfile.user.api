@@ -6,7 +6,7 @@ COPY go.mod go.sum ./
 
 RUN go mod download
 
-COPY ./app/api/account ./app/api/account
+COPY ./app/api/user ./app/api/user
 COPY ./pkg ./pkg
 
 RUN CGO_ENABLED=0 go build -o /tmp/user-api ./app/api/user/main.go
