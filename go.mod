@@ -8,9 +8,9 @@ require (
 	github.com/google/uuid v1.3.0
 	github.com/lib/pq v1.10.9
 	github.com/swaggo/swag v1.16.1
-	go.uber.org/zap v1.24.0
-	google.golang.org/protobuf v1.31.0
+	go.uber.org/zap v1.25.0
 	google.golang.org/grpc v1.57.0
+	google.golang.org/protobuf v1.31.0
 )
 
 require (
