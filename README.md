@@ -31,13 +31,13 @@ make build
 Generate all proto files
 
 ```bash
-   make proto
+make proto
 ```
 
 Genere swagger
 
 ```bash
-   make swagger
+make swagger
 ```
 
 ## Swagger Path
