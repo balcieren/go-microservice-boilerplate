@@ -51,7 +51,7 @@ require (
 	github.com/joho/godotenv v1.5.1
 	github.com/mitchellh/go-wordwrap v0.0.0-20150314170334-ad45545899c7 // indirect
 	github.com/zclconf/go-cty v1.8.0 // indirect
-	go.uber.org/fx v1.20.0
+	go.uber.org/fx v1.20.1
 	golang.org/x/mod v0.11.0 // indirect
 	golang.org/x/net v0.17.0 // indirect
 	golang.org/x/sys v0.13.0 // indirect
