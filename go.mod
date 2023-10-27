@@ -5,7 +5,7 @@ go 1.20
 require (
 	entgo.io/ent v0.12.4
 	github.com/gofiber/swagger v0.1.13
-	github.com/google/uuid v1.3.1
+	github.com/google/uuid v1.4.0
 	github.com/lib/pq v1.10.9
 	github.com/swaggo/swag v1.16.2
 	go.uber.org/zap v1.26.0
