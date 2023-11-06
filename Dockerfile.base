@@ -1,0 +1,28 @@
+# Build stage
+FROM golang:alpine as builder
+RUN apk add --no-cache upx 
+
+ARG APP_PATH
+ENV APP_PATH=${APP_PATH}
+
+WORKDIR /src
+COPY go.mod go.sum ./
+RUN go mod download
+
+COPY ./${APP_PATH} ./${APP_PATH}
+COPY ./pkg ./pkg
+COPY ./config.production.yaml ./config.yaml
+
+RUN CGO_ENABLED=0 GOOS=linux go build -ldflags="-s -w" -o /bin/app ${APP_PATH}/main.go
+RUN upx /bin/app --best --lzma
+
+FROM scratch
+
+ARG APP_PATH
+ENV APP_PATH=${APP_PATH}
+
+COPY ./config.production.yaml ./config.yaml
+COPY --from=builder /bin/app /bin/app
+COPY --from=builder /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/ca-certificates.crt
+
+ENTRYPOINT ["/bin/app"]

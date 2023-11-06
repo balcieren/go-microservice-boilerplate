@@ -4,12 +4,12 @@ import (
 	"context"
 	"fmt"
 	"net"
-	"strings"
 
-	_ "github.com/balcieren/go-microservice/docs"
-	"github.com/balcieren/go-microservice/pkg/config"
-	"github.com/balcieren/go-microservice/pkg/helper"
-	"github.com/balcieren/go-microservice/pkg/log"
+	_ "github.com/go-microservice-boilerplate/app/proxy/docs"
+	"github.com/go-microservice-boilerplate/pkg/config"
+	"github.com/go-microservice-boilerplate/pkg/helper"
+	"github.com/go-microservice-boilerplate/pkg/log"
+	"github.com/go-microservice-boilerplate/pkg/utils"
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/logger"
 	"github.com/gofiber/fiber/v2/middleware/proxy"
@@ -17,9 +17,9 @@ import (
 	"go.uber.org/fx"
 )
 
-// @title  Go-Microservice API Documentation
+// @title  go-microservice-boilerplate API Documentation
 // @version 1.0
-// @description This is a sample server for Go-Microservice API Documentation.
+// @description This is a sample server for go-microservice-boilerplate API Documentation.
 
 // @host      localhost:8000
 // @BasePath  /api
@@ -41,26 +41,17 @@ func main() {
 			app.Get("/api/swagger/*", swagger.HandlerDefault)
 
 			app.All("/api/v1*", func(c *fiber.Ctx) error {
-				var fullPath, parentPath string = "", ""
-				if len(strings.Split(string(c.Request().URI().RequestURI()), "/api/v1")) >= 2 {
-					fullPath = strings.Split(string(c.Request().URI().RequestURI()), "/api/v1")[1]
-				} else {
+				path, err := utils.SplitProxyPath(c, "/api/v1")
+				if err != nil {
 					return fiber.ErrNotFound
 				}
 
-				if len(strings.Split(fullPath, "/")) >= 2 {
-					parentPath = strings.Split(fullPath, "/")[1]
-				} else {
-					return fiber.ErrNotFound
-				}
-
-				switch parentPath {
-				case "users":
-					url := fmt.Sprintf("http://%s:%s/v1%s", cfg.USER_API_HOST_NAME, cfg.API_PORT, fullPath)
-
-					if err := proxy.Do(c, url); err != nil {
-						return fiber.NewError(fiber.StatusInternalServerError, err.Error())
-					}
+				if err := proxy.Do(c, utils.GenerateURL(path, utils.OutgoingPath{
+					Version:   "v1",
+					HostSplit: "-api",
+					Port:      cfg.API.Port,
+				})); err != nil {
+					return fiber.NewError(fiber.StatusNotFound, fmt.Sprintf("Cannot %s %s", c.Method(), c.Path()))
 				}
 
 				c.Response().Header.Del(fiber.HeaderServer)
@@ -69,7 +60,7 @@ func main() {
 
 			lc.Append(fx.Hook{
 				OnStart: func(ctx context.Context) error {
-					go app.Listen(net.JoinHostPort("", cfg.PROXY_PORT))
+					go app.Listen(net.JoinHostPort("", cfg.Proxy.Port))
 					return nil
 				},
 				OnStop: func(ctx context.Context) error {
