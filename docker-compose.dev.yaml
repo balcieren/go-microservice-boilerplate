@@ -1,77 +1,137 @@
+name: go-microservice-boilerplate
 services:
     proxy:
         container_name: proxy
         build:
             context: ./
-            dockerfile: Dockerfile.proxy.dev
+            dockerfile: Dockerfile.base.dev
+            args:
+                - APP_PATH=/app/proxy
         environment:
             - PROXY_PORT=8000
             - API_PORT=8081
-            - USER_API_HOST_NAME=user-api
         ports:
             - '8000:8000'
         networks:
-            - go-microservice
+            - go-microservice-boilerplate
         restart: always
         depends_on:
-            - user-api
+            - users-api
         volumes:
             - ./app/proxy/:/src/app/proxy
-            - ./docs/:/src/docs
             - ./pkg/:/src/pkg
 
-    user-grpc:
-        container_name: user-grpc
+    users-grpc:
+        container_name: users-grpc
         build:
             context: ./
-            dockerfile: Dockerfile.user.grpc.dev
+            dockerfile: Dockerfile.base.dev
+            args:
+                - APP_PATH=/app/grpc/user
         networks:
-            - go-microservice
+            - go-microservice-boilerplate
         restart: always
         environment:
             - GRPC_PORT=50051
-            - USER_POSTGRESQL_URI=postgresql://postgres:postgres@postgresql-database/go-microservice?sslmode=disable
         volumes:
             - ./app/grpc/user/:/src/app/grpc/user
             - ./pkg/:/src/pkg
+            - ./config.development.yaml:/src/config.yaml
 
-    user-api:
-        container_name: user-api
+    users-api:
+        container_name: users-api
         build:
             context: ./
-            dockerfile: Dockerfile.user.api.dev
+            dockerfile: Dockerfile.base.dev
+            args:
+                - APP_PATH=/app/api/user
         environment:
             - API_PORT=8081
-            - USER_GRPC_HOST_NAME=user-grpc
+            - GRPC_HOST_NAME=users-grpc
             - GRPC_PORT=50051
         networks:
-            - go-microservice
+            - go-microservice-boilerplate
         restart: always
         depends_on:
-            - user-grpc
+            - users-grpc
         volumes:
             - ./app/api/user/:/src/app/api/user
             - ./pkg/:/src/pkg
+
+    meilisearch-database:
+        container_name: meilisearch-database
+        image: getmeili/meilisearch:latest
+        environment:
+            - http_proxy
+            - https_proxy
+            - MEILI_MASTER_KEY=${MEILI_MASTER_KEY:-go-microservice-boilerplate}
+            - MEILI_NO_ANALYTICS=${MEILI_NO_ANALYTICS:-true}
+            - MEILI_ENV=${MEILI_ENV:-development}
+            - MEILI_LOG_LEVEL
+        ports:
+            - '7700:7700'
+        networks:
+            - go-microservice-boilerplate
+        restart: always
+        volumes:
+            - meilisearch-data:/var/lib/meilisearch/data.ms
 
     postgresql-database:
         container_name: postgresql-database
         image: postgres:14.6
         environment:
-            - POSTGRES_USER=postgres
-            - POSTGRES_PASSWORD=postgres
-            - POSTGRES_DB=go-microservice
-        restart: always
+            - POSTGRES_USER=go-microservice-boilerplate
+            - POSTGRES_PASSWORD=go-microservice-boilerplate
+            - POSTGRES_DB=go-microservice-boilerplate
         ports:
             - '5432:5432'
         networks:
-            - go-microservice
+            - go-microservice-boilerplate
         volumes:
             - postgresql-data:/var/lib/postgresql/data/
+
+    redis-database:
+        container_name: redis-database
+        image: 'redis:latest'
+        environment:
+            - ALLOW_EMPTY_PASSWORD=yes
+        ports:
+            - '6379:6379'
+        networks:
+            - go-microservice-boilerplate
+        volumes:
+            - redis-data:/var/lib/redis/data/
+
+    minio-database:
+        image: quay.io/minio/minio
+        container_name: minio-database
+        environment:
+           MINIO_ROOT_USER: go-microservice-boilerplate
+           MINIO_ROOT_PASSWORD: go-microservice-boilerplate
+        command: server /data --console-address ":9001"
+        ports:
+          - "9000:9000"
+          - "9001:9001"
+        restart: always
+        volumes:
+          - minio-data:/data
+        networks:
+          - go-microservice-boilerplate
 
 volumes:
     postgresql-data:
         driver: local
         external: false
+    redis-data:
+        driver: local
+        external: false
+    meilisearch-data:
+        driver: local
+        external: false
+    minio-data:
+        driver: local
+        external: false
+        
 networks:
-    go-microservice:
+    go-microservice-boilerplate:
         driver: bridge

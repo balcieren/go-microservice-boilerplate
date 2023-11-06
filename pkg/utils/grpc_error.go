@@ -26,6 +26,8 @@ func ConvertGRPCErrorToHTTP(err error) (int, string) {
 		return http.StatusForbidden, st.Message()
 	case codes.Unauthenticated:
 		return http.StatusUnauthorized, st.Message()
+	case codes.Internal:
+		return http.StatusInternalServerError, st.Message()
 	case codes.Unimplemented:
 		return http.StatusNotImplemented, st.Message()
 	case codes.Unavailable:

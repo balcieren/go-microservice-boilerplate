@@ -1,0 +1,17 @@
+FROM golang:alpine
+
+ARG APP_PATH
+ENV APP_PATH=${APP_PATH}
+
+WORKDIR /src
+COPY go.mod go.sum ./
+
+RUN go mod download
+
+COPY ${APP_PATH} ${APP_PATH} 
+COPY ./pkg ./pkg
+COPY ./config.development.yaml ./config.yaml
+
+RUN go install github.com/cosmtrek/air@latest
+
+CMD air --build.cmd "go build -o /tmp/${APP_PATH} ${APP_PATH}/main.go" --build.bin "/tmp/${APP_PATH} "

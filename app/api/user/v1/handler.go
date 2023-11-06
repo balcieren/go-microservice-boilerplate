@@ -3,11 +3,11 @@ package v1
 import (
 	"context"
 
-	"github.com/balcieren/go-microservice/pkg/config"
-	_ "github.com/balcieren/go-microservice/pkg/helper"
-	"github.com/balcieren/go-microservice/pkg/log"
-	"github.com/balcieren/go-microservice/pkg/proto"
-	"github.com/balcieren/go-microservice/pkg/utils"
+	"github.com/go-microservice-boilerplate/pkg/config"
+	_ "github.com/go-microservice-boilerplate/pkg/helper"
+	"github.com/go-microservice-boilerplate/pkg/log"
+	"github.com/go-microservice-boilerplate/pkg/proto"
+	"github.com/go-microservice-boilerplate/pkg/utils"
 	"github.com/gofiber/fiber/v2"
 )
 
@@ -94,7 +94,7 @@ func (h *Handler) CreateUser(c *fiber.Ctx) error {
 	_, err := h.service.user.CreateUser(context.Background(), &proto.CreateUserRequest{
 		UserName: payload.Username,
 		Email:    payload.Email,
-		Age:      uint64(payload.Age),
+		Age:      payload.Age,
 	})
 	if err != nil {
 		code, msg := utils.ConvertGRPCErrorToHTTP(err)
@@ -126,7 +126,7 @@ func (h *Handler) UpdateUser(c *fiber.Ctx) error {
 		Id:       c.Params("id"),
 		UserName: payload.Username,
 		Email:    payload.Email,
-		Age:      uint64(payload.Age),
+		Age:      payload.Age,
 	})
 	if err != nil {
 		code, msg := utils.ConvertGRPCErrorToHTTP(err)

@@ -1,27 +1,17 @@
 package v1
 
 import (
-	"net"
-
-	"github.com/balcieren/go-microservice/pkg/config"
-	"github.com/balcieren/go-microservice/pkg/proto"
+	"github.com/go-microservice-boilerplate/pkg/config"
+	"github.com/go-microservice-boilerplate/pkg/proto"
 	"google.golang.org/grpc"
-	"google.golang.org/grpc/credentials/insecure"
 )
 
 type Service struct {
 	user proto.UserServiceClient
 }
 
-func NewService(c *config.Config) (*Service, error) {
-	conn, err := grpc.Dial(
-		net.JoinHostPort(c.USER_GRPC_HOST_NAME, c.GRPC_PORT),
-		grpc.WithTransportCredentials(insecure.NewCredentials()))
-	if err != nil {
-		return nil, err
-	}
-
+func NewService(c *config.Config, conn *grpc.ClientConn) *Service {
 	return &Service{
 		user: proto.NewUserServiceClient(conn),
-	}, nil
+	}
 }
