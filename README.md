@@ -1,7 +1,7 @@
 
 # Go Microservice Boilerplate
 
-The pattern which used with dependency injection, makes it easy to build expandable applications.
+The template which used with dependency injection, makes it easy to build expandable applications.
 
 ![microservice](https://i.ibb.co/rxRpDnL/microservice.png)
 
