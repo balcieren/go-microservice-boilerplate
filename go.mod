@@ -10,7 +10,7 @@ require (
 	github.com/google/uuid v1.5.0
 	github.com/hibiken/asynq v0.24.1
 	github.com/lib/pq v1.10.9
-	github.com/meilisearch/meilisearch-go v0.26.0
+	github.com/meilisearch/meilisearch-go v0.26.1
 	github.com/minio/minio-go/v7 v7.0.66
 	github.com/swaggo/swag v1.16.2
 	go.uber.org/zap v1.26.0
