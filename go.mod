@@ -12,7 +12,7 @@ require (
 	github.com/lib/pq v1.10.9
 	github.com/meilisearch/meilisearch-go v0.26.1
 	github.com/minio/minio-go/v7 v7.0.66
-	github.com/swaggo/swag v1.16.2
+	github.com/swaggo/swag v1.16.3
 	go.uber.org/zap v1.26.0
 	google.golang.org/grpc v1.60.0
 	google.golang.org/protobuf v1.32.0
