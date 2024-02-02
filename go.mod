@@ -6,7 +6,7 @@ toolchain go1.21.0
 
 require (
 	entgo.io/ent v0.12.5
-	github.com/gofiber/swagger v0.1.14
+	github.com/gofiber/swagger v1.0.0
 	github.com/google/uuid v1.6.0
 	github.com/hibiken/asynq v0.24.1
 	github.com/lib/pq v1.10.9
