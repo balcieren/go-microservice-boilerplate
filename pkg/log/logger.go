@@ -10,7 +10,5 @@ func New() (*Logger, error) {
 		return nil, err
 	}
 
-	sugar := logger.Sugar()
-
-	return sugar, nil
+	return logger.Sugar(), nil
 }

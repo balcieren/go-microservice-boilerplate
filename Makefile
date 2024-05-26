@@ -1,17 +1,10 @@
 dev:
-	docker compose -f "docker-compose.dev.yaml" up
-dev-down:
-	docker compose -f "docker-compose.dev.yaml" down
-build:
-	docker compose -f "docker-compose.yaml" up
+	docker compose -f "docker-compose.dev.yaml" -p go-microservice-boilerplate-dev up 
+prod:
+	docker compose -f "docker-compose.prod.yaml" -p go-microservice-boilerplate-prod up 
+swagger:
+	swag init -g main.go --output ./docs --quiet --parseDependency --parseInternal
+gorm:
+	cd pkg/generate && go run gorm_gen.go
 proto:
 	protoc --go_out=. --go-grpc_out=.  ./pkg/proto/*.proto
-ent:
-	go generate ./pkg/ent
-swagger:
-	swag init -g /app/proxy/main.go --output ./app/proxy/docs --parseDependency true --parseInternal true 
-go-global:
-	go install github.com/swaggo/swag/cmd/swag@latest 
-	go install google.golang.org/protobuf/cmd/protoc-gen-go@v1.28 
-	go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@v1.2 
-	export PATH="$PATH:$(go env GOPATH)/bin"

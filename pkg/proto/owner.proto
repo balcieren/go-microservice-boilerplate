@@ -1,0 +1,70 @@
+syntax = "proto3";
+
+import "google/protobuf/wrappers.proto";
+option go_package = "./pkg/proto";
+
+
+service OwnerService {
+    rpc ListOwners(ListOwnersRequest) returns (ListOwnersResponse) {}
+    rpc GetOwner(GetOwnerRequest) returns (GetOwnerResponse) {}
+    rpc CreateOwner(CreateOwnerRequest) returns (CreateOwnerResponse) {}
+    rpc UpdateOwner(UpdateOwnerRequest) returns (UpdateOwnerResponse) {}
+    rpc DeleteOwner(DeleteOwnerRequest) returns (DeleteOwnerResponse) {}
+}
+
+message Owner {
+    string id = 1;
+    string name = 2;
+    int64 created_at = 3;
+    int64 updated_at = 4;
+}
+
+message ListOwnersRequest {
+    int64 page = 1;
+    int64 per_page = 2;
+}
+
+message ListOwnersResponse {
+    repeated Owner rows = 1;
+    int64 page = 2;
+    int64 per_page = 3;
+    int64 total = 4;
+    int64 total_pages = 5;
+}
+
+message GetOwnerRequest {
+    string id = 1;
+    google.protobuf.StringValue name = 2;
+}
+
+message GetOwnerResponse {
+    string id = 1;
+    string name = 2;
+    int64 created_at = 3;
+    int64 updated_at = 4;
+}
+
+message CreateOwnerRequest {
+    string name = 1;
+}
+
+message CreateOwnerResponse {
+    string message = 1;
+}
+
+message UpdateOwnerRequest {
+    string id = 1;
+    google.protobuf.StringValue name = 2;
+}
+
+message UpdateOwnerResponse {
+    string message = 1;
+}
+
+message DeleteOwnerRequest {
+    string id = 1;
+}
+
+message DeleteOwnerResponse {
+    string message = 1;
+}
