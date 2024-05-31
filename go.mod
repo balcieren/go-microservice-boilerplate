@@ -14,8 +14,8 @@ require (
 	github.com/minio/minio-go/v7 v7.0.70
 	github.com/swaggo/swag v1.16.3
 	go.uber.org/zap v1.27.0
-	google.golang.org/protobuf v1.34.1
 	google.golang.org/grpc v1.64.0
+	google.golang.org/protobuf v1.34.1
 	gopkg.in/yaml.v3 v3.0.1
 )
 
@@ -70,7 +70,7 @@ require (
 	github.com/joho/godotenv v1.5.1
 	github.com/mitchellh/go-wordwrap v1.0.1 // indirect
 	github.com/zclconf/go-cty v1.14.1 // indirect
-	go.uber.org/fx v1.21.1
+	go.uber.org/fx v1.22.0
 	golang.org/x/mod v0.15.0 // indirect
 	golang.org/x/net v0.23.0 // indirect
 	golang.org/x/sys v0.18.0 // indirect
