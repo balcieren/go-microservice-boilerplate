@@ -1,71 +1,65 @@
-
 # Go Microservice Boilerplate
 
-The template which used with dependency injection, makes it easy to build expandable applications.
+This boilerplate serves as a solid foundation for building robust, scalable, and maintainable microservice applications using the Go programming language.
 
-![microservice](https://i.ibb.co/rxRpDnL/microservice.png)
+### Microservice Architecture
 
-## Packages
+Microservice architecture enhances scalability and flexibility in modern applications. A microservice boilerplate is a standardized template that streamlines development by providing essential components like directory structures, build tools, testing frameworks, and logging integrations. Using a boilerplate allows developers to focus on business logic, ensuring consistency and efficiency across services. This approach accelerates development, enforces standards, and reduces errors, facilitating robust and scalable software solutions.
 
-- [Fiber](https://github.com/gofiber/fiber)
-- [Fiber Swagger](https://github.com/gofiber/swagger)
-- [Uber FX](https://github.com/uber-go/fx)
-- [Uber Zap](https://github.com/uber-go/zap)
-- [Ent](https://github.com/ent/ent)
-- [gRPC](https://github.com/grpc/grpc-go)
+> [!WARNING]
+> Pet and owner were shown in the project only as an example.
 
-## Databases
+### Aims of the Boilerplate
 
-- [PostgreSQL](https://www.postgresql.org.pl/)
-- [Meilisearch](https://www.meilisearch.com/)
-- [Redis](https://redis.io/)
+1. **Scalability**: While a monolithic application may not scale as easily as a microservice, this example provides best practices and patterns to help you scale your application efficiently as it grows.
+2. **Ease of Deployment**: Application deployment and management become easier with a single deployable unit compared to a distributed microservices architecture.
+3. **Enhance Scalability**: Allow individual services to scale independently based on demand.
+4. **Increase Flexibility**: Enable developers to use different technologies and languages for different services.
+5. **Improve Resilience**: Isolate failures to prevent them from affecting the entire system.
+6. **Accelerate Development**: Allow multiple teams to work concurrently on different services, speeding up the development process.
+Simplify Maintenance: Make it easier to update and maintain services due to their smaller and more focused nature.
+1. **Promote Reusability**: Encourage the creation of reusable services that can be leveraged across different projects.
+2. **Facilitate Deployment**: Support continuous delivery and deployment by enabling services to be deployed independently.
 
-## Storages
+### Extras of the Boilerplate
 
-- [MinIO](https://min.io/docs/minio/linux/developers/go/minio-go.html)
+How to use are [Swagger](https://github.com/gofiber/swagger), [Gorm](https://gorm.io/index.html) and [Gorm Gen](https://gorm.io/gen/) mentioned in the boilerplate.
 
-## Worker
+### Packages
 
-- [asynq](https://github.com/hibiken/asynq)
+-   [Fiber](https://github.com/gofiber/fiber)
+-   [Fiber Swagger](https://github.com/gofiber/swagger)
+-   [Uber FX](https://github.com/uber-go/fx)
+-   [Uber Zap](https://github.com/uber-go/zap)
+-   [Gorm](https://gorm.io/index.html)
+-   [Gorm Gen](https://gorm.io/gen/)
+-   [gRPC](https://grpc.io/docs/languages/go/quickstart/)
 
-## Deployment
+### Databases
 
-### Development Mode (hot reload)
+-   [PostgreSQL](https://www.postgresql.org/)
+
+### Makefile Commands
+
+Run the app as development mode
 
 ```bash
 make dev
 ```
 
-### Production Mode
-
+Run the app as production mode
 ```bash
-make build
+make prod
 ```
-
-## Additional Makefile Commands
-
-Generate all proto files
-
-```bash
-make proto
-```
-
-Generate swagger
-
+Generate the swagger document
 ```bash
 make swagger
 ```
-
-Generate ent
-
+Gorm Gen
 ```bash
-make ent
+make gorm
 ```
-
-## Swagger Path
-
-localhost:8000/api/swagger
-
-## Missing Features
-
-- Load balancer in proxy
+Generate client and server codes from proto
+```bash
+make proto
+```
