@@ -1,9 +1,12 @@
 # Build stage
 FROM golang:alpine as builder
+
 RUN apk add --no-cache upx 
 
 ARG APP_PATH
 ENV APP_PATH=${APP_PATH}
+
+ENV APP_ENV=prod
 
 WORKDIR /src
 

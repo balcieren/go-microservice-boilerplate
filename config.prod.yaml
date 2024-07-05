@@ -1,6 +1,6 @@
 api:
-    host: localhost
+    host:
     port: 8000
 grpc:
-    host: localhost
+    host:
     port: 50051
