@@ -1,5 +1,7 @@
 FROM golang:alpine
 
+ENV APP_ENV=dev
+
 WORKDIR /src
 COPY go.mod go.sum main.go ./
 RUN --mount=type=cache,target=/root/.cache/go-build \
@@ -15,6 +17,6 @@ COPY ./config.dev.yaml ./config.yaml
 RUN  --mount=type=cache,target=/root/.cache/go-build \
     --mount=type=cache,target=/go/pkg/mod \
     --mount=type=cache,target=/go/pkg/sumdb \
-    go install github.com/cosmtrek/air@latest
+    go install github.com/air-verse/air@latest
 
 CMD air

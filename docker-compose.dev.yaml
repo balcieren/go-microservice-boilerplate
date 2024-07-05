@@ -16,6 +16,7 @@ services:
             - POSTGRES_USER=go-microservice-boilerplate
             - POSTGRES_PASSWORD=go-microservice-boilerplate
             - POSTGRES_DB=go-microservice-boilerplate
+            - SWAGGER_HOST=localhost:8000
             - SWAGGER_USER=go-microservice-boilerplate
             - SWAGGER_PASSWORD=go-microservice-boilerplate
         depends_on:
