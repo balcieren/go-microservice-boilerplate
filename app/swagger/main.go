@@ -9,8 +9,8 @@ import (
 // @title  go-microservice-boilerplate API Documentation
 // @version 1.0
 // @description This is a boilerplate for a microservice application using Go.
-// @host      localhost:8000
-// @BasePath  /api
+// @host      api.localhost
+// @BasePath  /
 // @schemes http
 
 func main() {
