@@ -25,6 +25,9 @@ Simplify Maintenance: Make it easier to update and maintain services due to thei
 
 How to use are [Swagger](https://github.com/gofiber/swagger), [Gorm](https://gorm.io/index.html) and [Gorm Gen](https://gorm.io/gen/) mentioned in the boilerplate.
 
+### Why development mode working as monolithic ?
+When go-air used for hot reload on separate applications in same time, it uses too much system features like memory. What's more, you may not even get any positive results from the work of the containers when the number of container is increased.
+
 ### Packages
 
 -   [Fiber](https://github.com/gofiber/fiber)
@@ -38,6 +41,9 @@ How to use are [Swagger](https://github.com/gofiber/swagger), [Gorm](https://gor
 ### Databases
 
 -   [PostgreSQL](https://www.postgresql.org/)
+  
+### Proxy
+- [Traefik](https://traefik.io/)
 
 ### Makefile Commands
 
