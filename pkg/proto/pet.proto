@@ -1,0 +1,78 @@
+syntax = "proto3";
+
+import "google/protobuf/wrappers.proto";
+option go_package = "./pkg/proto";
+
+service PetService{
+    rpc ListPets(ListPetsRequest) returns (ListPetsResponse);
+    rpc GetPet(GetPetRequest) returns (GetPetResponse);
+    rpc CreatePet(CreatePetRequest) returns (CreatePetResponse);
+    rpc UpdatePet(UpdatePetRequest) returns (UpdatePetResponse);
+    rpc DeletePet(DeletePetRequest) returns (DeletePetResponse);
+}
+
+message Pet{
+    string id = 1;
+    string name = 2;
+    google.protobuf.StringValue owner_id = 3;
+    string type = 4;
+    int64 created_at = 5;
+    int64 updated_at = 6;
+}
+
+message ListPetsRequest{
+    int64 page = 1;
+    int64 per_page = 2;
+    google.protobuf.BoolValue HasOwner = 3;
+    google.protobuf.StringValue owner_id = 4;
+}
+
+message ListPetsResponse{
+    repeated Pet rows = 1;
+    int64 page = 2;
+    int64 per_page = 3;
+    int64 total = 4;
+    int64 total_pages = 5;
+}
+
+message GetPetRequest{
+    string id = 1;
+}
+
+message GetPetResponse{
+    string id = 1;
+    string name = 2;
+    google.protobuf.StringValue owner_id = 3;
+    string type = 4;
+    int64 created_at = 5;
+    int64 updated_at = 6;
+}
+
+message CreatePetRequest{
+    string name = 1;
+    google.protobuf.StringValue owner_id = 2;
+    string type = 3;
+}
+
+message CreatePetResponse{
+    string message = 1;
+}
+
+message UpdatePetRequest{
+    string id = 1;
+    google.protobuf.StringValue name = 2;
+    google.protobuf.StringValue owner_id = 3;
+    google.protobuf.StringValue type = 4;
+}
+
+message UpdatePetResponse{
+    string message = 1;
+}
+
+message DeletePetRequest{
+    string id = 1;
+}
+
+message DeletePetResponse{
+    string message = 1;
+}

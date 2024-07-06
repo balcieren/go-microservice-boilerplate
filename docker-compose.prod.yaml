@@ -1,0 +1,109 @@
+name: go-microservice-boilerplate-prod
+services:
+    traefik:
+        container_name: traefik
+        image: traefik:latest
+        command:
+            - "--api.insecure=true"
+            - "--providers.docker=true"
+            - "--providers.docker.exposedbydefault=false"
+            - "--entryPoints.web.address=:80"
+        ports:
+            - "80:80"
+            - "8080:8080"
+        networks:
+            - go-microservice-boilerplate
+        volumes:
+            - "/var/run/docker.sock:/var/run/docker.sock"
+
+    swagger:
+        container_name: swagger
+        build:
+            context: ./
+            dockerfile: Dockerfile.prod
+            args:
+                - APP_PATH=app/swagger
+        networks:
+            - go-microservice-boilerplate
+        restart: always
+        ports:
+            - "8001:8000"
+        labels:
+            - "traefik.enable=true"
+            - "traefik.http.routers.swagger.rule=Host(`swagger.localhost`)"
+            - "traefik.http.routers.swagger.entrypoints=web"
+        environment:
+            - SWAGGER_HOST=api.localhost
+            - SWAGGER_BASE_PATH=/
+            - SWAGGER_USER=go-microservice-boilerplate
+            - SWAGGER_PASSWORD=go-microservice-boilerplate
+            
+    owner-service:
+        container_name: owner-service
+        build:
+            context: ./
+            dockerfile: Dockerfile.prod
+            args:
+                - APP_PATH=app/owner
+        networks:
+            - go-microservice-boilerplate
+        restart: always
+        ports:
+            - "8002:8000"
+        labels:
+            - "traefik.enable=true"
+            - "traefik.http.routers.owner-service.rule=Host(`api.localhost`) && PathRegexp(`/v[0-9]+/owners`)"
+            - "traefik.http.routers.owner-service.entrypoints=web"
+        environment:
+            - POSTGRES_HOST=postgresql-database
+            - POSTGRES_PORT=5432
+            - POSTGRES_USER=go-microservice-boilerplate
+            - POSTGRES_PASSWORD=go-microservice-boilerplate
+            - POSTGRES_DB=go-microservice-boilerplate
+        depends_on:
+            - postgresql-database
+
+    pet-service:
+        container_name: pet-service
+        build:
+            context: ./
+            dockerfile: Dockerfile.prod
+            args:
+                - APP_PATH=app/pet
+        networks:
+            - go-microservice-boilerplate
+        restart: always
+        ports:
+            - "8003:8000"
+        labels:
+            - "traefik.enable=true"
+            - "traefik.http.routers.pet-service.rule=Host(`api.localhost`) && PathRegexp(`/v[0-9]+/pets`)"
+            - "traefik.http.routers.pet-service.entrypoints=web"
+        environment:
+            - POSTGRES_HOST=postgresql-database
+            - POSTGRES_PORT=5432
+            - POSTGRES_USER=go-microservice-boilerplate
+            - POSTGRES_PASSWORD=go-microservice-boilerplate
+            - POSTGRES_DB=go-microservice-boilerplate
+        depends_on:
+            - postgresql-database
+
+    postgresql-database:
+        container_name: postgresql-database-prod
+        image: postgres:14.6
+        environment:
+            - POSTGRES_USER=go-microservice-boilerplate
+            - POSTGRES_PASSWORD=go-microservice-boilerplate
+            - POSTGRES_DB=go-microservice-boilerplate
+        networks:
+            - go-microservice-boilerplate
+        volumes:
+            - postgresql-data:/var/lib/postgresql/data/
+
+volumes:
+    postgresql-data:
+        driver: local
+        external: false
+
+networks:
+    go-microservice-boilerplate:

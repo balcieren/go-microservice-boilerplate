@@ -1,0 +1,6 @@
+api:
+    host:
+    port: 8000
+grpc:
+    host:
+    port: 50051
