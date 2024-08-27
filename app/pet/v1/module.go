@@ -6,10 +6,18 @@ import (
 	"google.golang.org/grpc"
 )
 
-var Module = fx.Module(
+var GrpcModule = fx.Module(
 	"pet-grpc-v1",
 	fx.Provide(NewService),
 	fx.Invoke(func(srv *grpc.Server, s *Service) {
 		proto.RegisterPetServiceServer(srv, s)
+	}),
+)
+
+var ApiModule = fx.Module(
+	"pet-api-v1",
+	fx.Provide(NewAPI),
+	fx.Invoke(func(lc fx.Lifecycle, api *API) {
+		api.Setup()
 	}),
 )

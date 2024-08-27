@@ -1,6 +1,7 @@
 package v1
 
 import (
+	"github.com/balcieren/go-microservice-boilerplate/pkg/config"
 	"github.com/balcieren/go-microservice-boilerplate/pkg/entity"
 	"github.com/balcieren/go-microservice-boilerplate/pkg/fail"
 	"github.com/balcieren/go-microservice-boilerplate/pkg/proto"
@@ -10,14 +11,29 @@ import (
 	"google.golang.org/protobuf/types/known/wrapperspb"
 )
 
-type Handler struct {
+type API struct {
 	service proto.PetServiceClient
+	router  fiber.Router
 }
 
-func NewHandler(c *grpc.ClientConn) *Handler {
-	return &Handler{
-		service: proto.NewPetServiceClient(c),
+func NewAPI(env *config.Env, c *grpc.ClientConn, app *fiber.App) *API {
+	var path string = "/v1/pets"
+	if env.AppEnv == "dev" {
+		path = "/api/v1/pets"
 	}
+
+	return &API{
+		service: proto.NewPetServiceClient(c),
+		router:  app.Group(path),
+	}
+}
+
+func (api API) Setup() {
+	api.router.Get("/", api.ListPets)
+	api.router.Get("/:id", api.GetPet)
+	api.router.Post("/", api.CreatePet)
+	api.router.Patch("/:id", api.UpdatePet)
+	api.router.Delete("/:id", api.DeletePet)
 }
 
 // @ID ListPets
@@ -34,7 +50,7 @@ func NewHandler(c *grpc.ClientConn) *Handler {
 // @Failure 400 {object} helper.ErrorResponse
 // @Failure 500 {object} helper.ErrorResponse
 // @Router /v1/pets [get]
-func (h Handler) ListPets(c *fiber.Ctx) error {
+func (api API) ListPets(c *fiber.Ctx) error {
 	req := proto.ListPetsRequest{
 		Page:    int64(c.QueryInt("page", 1)),
 		PerPage: int64(c.QueryInt("per_page", 10)),
@@ -48,7 +64,7 @@ func (h Handler) ListPets(c *fiber.Ctx) error {
 		req.OwnerId = wrapperspb.String(c.Query("owner_id"))
 	}
 
-	resp, err := h.service.ListPets(c.Context(), &req)
+	resp, err := api.service.ListPets(c.Context(), &req)
 	if err != nil {
 		return fiber.NewError(fail.Convert(err))
 	}
@@ -86,10 +102,10 @@ func (h Handler) ListPets(c *fiber.Ctx) error {
 // @Failure 404 {object} helper.ErrorResponse
 // @Failure 500 {object} helper.ErrorResponse
 // @Router /v1/pets/{id} [get]
-func (h Handler) GetPet(c *fiber.Ctx) error {
+func (api API) GetPet(c *fiber.Ctx) error {
 	id := c.Params("id")
 
-	resp, err := h.service.GetPet(c.Context(), &proto.GetPetRequest{
+	resp, err := api.service.GetPet(c.Context(), &proto.GetPetRequest{
 		Id: id,
 	})
 	if err != nil {
@@ -117,7 +133,7 @@ func (h Handler) GetPet(c *fiber.Ctx) error {
 // @Failure 400 {object} helper.ErrorResponse
 // @Failure 500 {object} helper.ErrorResponse
 // @Router /v1/pets [post]
-func (h Handler) CreatePet(c *fiber.Ctx) error {
+func (api API) CreatePet(c *fiber.Ctx) error {
 	var body CreatePetBody
 	if err := c.BodyParser(&body); err != nil {
 		return fiber.NewError(fiber.StatusBadRequest, err.Error())
@@ -132,7 +148,7 @@ func (h Handler) CreatePet(c *fiber.Ctx) error {
 		req.OwnerId = wrapperspb.String(*body.OwnerID)
 	}
 
-	resp, err := h.service.CreatePet(c.Context(), &req)
+	resp, err := api.service.CreatePet(c.Context(), &req)
 	if err != nil {
 		return fiber.NewError(fail.Convert(err))
 	}
@@ -154,7 +170,7 @@ func (h Handler) CreatePet(c *fiber.Ctx) error {
 // @Failure 400 {object} helper.ErrorResponse
 // @Failure 500 {object} helper.ErrorResponse
 // @Router /v1/pets/{id} [patch]
-func (h Handler) UpdatePet(c *fiber.Ctx) error {
+func (api API) UpdatePet(c *fiber.Ctx) error {
 	id := c.Params("id")
 
 	body := UpdatePetBody{}
@@ -179,7 +195,7 @@ func (h Handler) UpdatePet(c *fiber.Ctx) error {
 		req.OwnerId = wrapperspb.String(*body.OwnerID)
 	}
 
-	resp, err := h.service.UpdatePet(c.Context(), &req)
+	resp, err := api.service.UpdatePet(c.Context(), &req)
 	if err != nil {
 		return fiber.NewError(fail.Convert(err))
 	}
@@ -200,10 +216,10 @@ func (h Handler) UpdatePet(c *fiber.Ctx) error {
 // @Failure 400 {object} helper.ErrorResponse
 // @Failure 500 {object} helper.ErrorResponse
 // @Router /v1/pets/{id} [delete]
-func (h Handler) DeletePet(c *fiber.Ctx) error {
+func (api API) DeletePet(c *fiber.Ctx) error {
 	id := c.Params("id")
 
-	resp, err := h.service.DeletePet(c.Context(), &proto.DeletePetRequest{
+	resp, err := api.service.DeletePet(c.Context(), &proto.DeletePetRequest{
 		Id: id,
 	})
 	if err != nil {

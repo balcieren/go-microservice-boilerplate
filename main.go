@@ -5,11 +5,8 @@ import (
 	"github.com/balcieren/go-microservice-boilerplate/pkg/infrastructure"
 	"go.uber.org/fx"
 
-	ownerApiV1 "github.com/balcieren/go-microservice-boilerplate/app/owner/api/v1"
-	petApiV1 "github.com/balcieren/go-microservice-boilerplate/app/pet/api/v1"
-
-	ownerGrpcV1 "github.com/balcieren/go-microservice-boilerplate/app/owner/grpc/v1"
-	petGrpcV1 "github.com/balcieren/go-microservice-boilerplate/app/pet/grpc/v1"
+	ownerV1 "github.com/balcieren/go-microservice-boilerplate/app/owner/v1"
+	petV1 "github.com/balcieren/go-microservice-boilerplate/app/pet/v1"
 )
 
 // @title  go-microservice-boilerplate API Documentation
@@ -25,10 +22,10 @@ func main() {
 		infrastructure.HTTPModule("http-module"),
 		infrastructure.GRPCModule("grpc-module"),
 		infrastructure.SwaggerModule(),
-		petApiV1.Module,
-		ownerGrpcV1.Module,
-		ownerApiV1.Module,
-		petGrpcV1.Module,
+		ownerV1.GrpcModule,
+		ownerV1.ApiModule,
+		petV1.GrpcModule,
+		petV1.ApiModule,
 		fx.Invoke(infrastructure.LaunchGRPCServer, infrastructure.LaunchHTTPServer),
 	).Run()
 }
