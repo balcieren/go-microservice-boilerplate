@@ -61,7 +61,7 @@ require (
 	github.com/lib/pq v1.10.9
 	go.uber.org/fx v1.22.2
 	go.uber.org/multierr v1.11.0 // indirect
-	google.golang.org/grpc v1.66.1
+	google.golang.org/grpc v1.66.2
 	gorm.io/driver/postgres v1.5.9
 	gorm.io/gen v0.3.26
 )
