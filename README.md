@@ -28,6 +28,22 @@ How to use are [Swagger](https://github.com/gofiber/swagger), [Gorm](https://gor
 ### Why development mode working as monolithic ?
 When go-air used for hot reload on separate applications in same time, it uses too much system features like memory. What's more, you may not even get any positive results from the work of the containers when the number of container is increased.
 
+### Graph of the Production Structure
+```mermaid
+graph TD;
+    PetServiceApp-->id1[(Database)];
+    OwnerServiceApp-->id1[(Database)];
+```
+
+### Graph of the Development Structure
+```mermaid
+graph TD;
+    App-->PetService
+    App-->OwnerService
+    PetService-->id1[(Database)];
+    OwnerService-->id1[(Database)];
+```
+
 ### Packages
 
 -   [Fiber](https://github.com/gofiber/fiber)
