@@ -63,6 +63,6 @@ require (
 	go.uber.org/fx v1.23.0
 	go.uber.org/multierr v1.11.0 // indirect
 	google.golang.org/grpc v1.68.0
-	gorm.io/driver/postgres v1.5.10
+	gorm.io/driver/postgres v1.5.11
 	gorm.io/gen v0.3.26
 )
