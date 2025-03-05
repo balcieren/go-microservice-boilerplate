@@ -42,12 +42,12 @@ require (
 	github.com/valyala/tcplisten v1.0.0 // indirect
 	go.uber.org/dig v1.18.0 // indirect
 	golang.org/x/mod v0.19.0 // indirect
-	golang.org/x/net v0.33.0 // indirect
+	golang.org/x/net v0.34.0 // indirect
 	golang.org/x/sync v0.11.0 // indirect
 	golang.org/x/sys v0.30.0 // indirect
 	golang.org/x/text v0.22.0 // indirect
 	golang.org/x/tools v0.22.0 // indirect
-	google.golang.org/genproto/googleapis/rpc v0.0.0-20241202173237-19429a94021a // indirect
+	google.golang.org/genproto/googleapis/rpc v0.0.0-20250115164207-1a7da9e5054f // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 	gorm.io/datatypes v1.2.1 // indirect
 	gorm.io/driver/mysql v1.5.7 // indirect
@@ -62,7 +62,7 @@ require (
 	github.com/lib/pq v1.10.9
 	go.uber.org/fx v1.23.0
 	go.uber.org/multierr v1.11.0 // indirect
-	google.golang.org/grpc v1.70.0
+	google.golang.org/grpc v1.71.0
 	gorm.io/driver/postgres v1.5.11
 	gorm.io/gen v0.3.26
 )
