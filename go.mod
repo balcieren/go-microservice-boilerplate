@@ -49,7 +49,7 @@ require (
 	golang.org/x/tools v0.22.0 // indirect
 	google.golang.org/genproto/googleapis/rpc v0.0.0-20250218202821-56aae31c358a // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
-	gorm.io/datatypes v1.2.1 // indirect
+	gorm.io/datatypes v1.2.4 // indirect
 	gorm.io/driver/mysql v1.5.7 // indirect
 	gorm.io/hints v1.1.2 // indirect
 )
@@ -64,5 +64,5 @@ require (
 	go.uber.org/multierr v1.11.0 // indirect
 	google.golang.org/grpc v1.72.0
 	gorm.io/driver/postgres v1.5.11
-	gorm.io/gen v0.3.26
+	gorm.io/gen v0.3.27
 )
