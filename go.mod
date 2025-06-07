@@ -48,7 +48,7 @@ require (
 	golang.org/x/sys v0.33.0 // indirect
 	golang.org/x/text v0.26.0 // indirect
 	golang.org/x/tools v0.33.0 // indirect
-	google.golang.org/genproto/googleapis/rpc v0.0.0-20250218202821-56aae31c358a // indirect
+	google.golang.org/genproto/googleapis/rpc v0.0.0-20250324211829-b45e905df463 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 	gorm.io/datatypes v1.2.4 // indirect
 	gorm.io/driver/mysql v1.5.7 // indirect
@@ -63,7 +63,7 @@ require (
 	github.com/lib/pq v1.10.9
 	go.uber.org/fx v1.24.0
 	go.uber.org/multierr v1.11.0 // indirect
-	google.golang.org/grpc v1.72.2
+	google.golang.org/grpc v1.73.0
 	gorm.io/driver/postgres v1.6.0
 	gorm.io/gen v0.3.27
 )
