@@ -12,7 +12,7 @@ require (
 	google.golang.org/protobuf v1.36.6
 	gopkg.in/yaml.v2 v2.4.0
 	gorm.io/gorm v1.30.0
-	gorm.io/plugin/dbresolver v1.6.0
+	gorm.io/plugin/dbresolver v1.6.2
 )
 
 require (
