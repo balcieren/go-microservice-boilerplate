@@ -8,8 +8,8 @@ require (
 	github.com/google/uuid v1.6.0
 	github.com/swaggo/swag v1.16.6
 	go.uber.org/zap v1.27.0
-	google.golang.org/protobuf v1.36.7
 	golang.org/x/crypto v0.41.0
+	google.golang.org/protobuf v1.36.7
 	gopkg.in/yaml.v2 v2.4.0
 	gorm.io/gorm v1.30.0
 	gorm.io/plugin/dbresolver v1.6.2
@@ -63,7 +63,7 @@ require (
 	github.com/lib/pq v1.10.9
 	go.uber.org/fx v1.24.0
 	go.uber.org/multierr v1.11.0 // indirect
-	google.golang.org/grpc v1.74.0
+	google.golang.org/grpc v1.74.2
 	gorm.io/driver/postgres v1.6.0
 	gorm.io/gen v0.3.27
 )
