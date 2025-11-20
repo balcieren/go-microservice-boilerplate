@@ -7,7 +7,7 @@ toolchain go1.24.1
 require (
 	github.com/google/uuid v1.6.0
 	github.com/swaggo/swag v1.16.6
-	go.uber.org/zap v1.27.0
+	go.uber.org/zap v1.27.1
 	golang.org/x/crypto v0.44.0
 	google.golang.org/protobuf v1.36.10
 	gopkg.in/yaml.v2 v2.4.0
