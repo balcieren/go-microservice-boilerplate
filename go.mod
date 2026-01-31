@@ -60,7 +60,7 @@ require (
 	github.com/gofiber/swagger v1.1.1
 	github.com/golang-jwt/jwt/v5 v5.3.1
 	github.com/joho/godotenv v1.5.1
-	github.com/lib/pq v1.11.0
+	github.com/lib/pq v1.11.1
 	go.uber.org/fx v1.24.0
 	go.uber.org/multierr v1.11.0 // indirect
 	google.golang.org/grpc v1.78.0
