@@ -64,5 +64,5 @@ require (
 	go.uber.org/multierr v1.11.0 // indirect
 	google.golang.org/grpc v1.83.0
 	gorm.io/driver/postgres v1.6.2
-	gorm.io/gen v0.3.28
+	gorm.io/gen v0.3.29
 )
