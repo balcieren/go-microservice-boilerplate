@@ -42,7 +42,7 @@ require (
 	go.uber.org/dig v1.19.0 // indirect
 	golang.org/x/exp v0.0.0-20240112132812-db7319d0e0e3 // indirect
 	golang.org/x/mod v0.38.0 // indirect
-	golang.org/x/net v0.57.0 // indirect
+	golang.org/x/net v0.58.0 // indirect
 	golang.org/x/sync v0.22.0 // indirect
 	golang.org/x/sys v0.47.0 // indirect
 	golang.org/x/text v0.41.0 // indirect
@@ -62,7 +62,7 @@ require (
 	github.com/lib/pq v1.12.3
 	go.uber.org/fx v1.24.0
 	go.uber.org/multierr v1.11.0 // indirect
-	google.golang.org/grpc v1.83.0
+	google.golang.org/grpc v1.83.2
 	gorm.io/driver/postgres v1.6.2
 	gorm.io/gen v0.3.28
 )
